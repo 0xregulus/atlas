@@ -1,0 +1,49 @@
+%% Mermaid source for Atlas architecture diagram
+flowchart LR
+    subgraph Frontend [Multi-tenant Experience]
+        Dash[Next.js 15 Dashboard]
+        Widgets[Analytics & Admin Widgets]
+    end
+
+    subgraph API [API + Core Services]
+        TRPC[tRPC Gateway]
+        FastAPI[FastAPI / NestJS Services]
+        RBAC[RBAC & Tenant Guardrails]
+        Stripe[(Stripe Billing)]
+    end
+
+    subgraph Data [Data & ML Platform]
+        Airbyte[Airbyte Ingestion]
+        Lake[(S3 + DuckDB Lakehouse)]
+        Dbt[dbt Models]
+        FeatureStore[(Feature Store)]
+    end
+
+    subgraph AI [AI & Automation]
+        LangGraph[LangGraph Orchestrator]
+        Qdrant[(Qdrant Vector Search)]
+        Agents[Agents + Retrievers]
+        Cache[Semantic Cache]
+    end
+
+    subgraph Ops [Automation & Observability]
+        CI[GitHub Actions CI/CD]
+        N8n[n8n Workflows]
+        OTel[OpenTelemetry + Grafana]
+        Alerts[Slack/Webhook Alerts]
+    end
+
+    Dash --> TRPC --> FastAPI --> RBAC
+    FastAPI --> Stripe
+    FastAPI -->|Events| Airbyte
+    Airbyte --> Lake --> Dbt --> FeatureStore
+    FeatureStore --> LangGraph
+    LangGraph --> Agents --> Qdrant
+    LangGraph --> Cache
+    Agents --> FastAPI
+    FastAPI -->|Emit Signals| OTel
+    OTel --> Alerts
+    CI --> FastAPI
+    CI --> Infra[(Terraform + AWS CDK)]
+    N8n --> FastAPI
+    N8n --> LangGraph

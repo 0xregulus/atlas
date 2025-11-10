@@ -1,0 +1,22 @@
+{
+  "name": "Knowledge Base",
+  "sourceId": "postgres",
+  "destinationId": "s3",
+  "schedule": "0 * * * *",
+  "namespaceDefinition": "destination",
+  "namespaceFormat": "atlas/raw",
+  "configuration": {
+    "source": {
+      "host": "postgres",
+      "database": "atlas",
+      "schema": "public",
+      "user": "airbyte",
+      "ssl": false
+    },
+    "destination": {
+      "bucket": "s3://atlas-data/raw",
+      "path": "knowledge_base",
+      "format": "parquet"
+    }
+  }
+}

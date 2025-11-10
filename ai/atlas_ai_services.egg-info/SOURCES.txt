@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+atlas_ai_services.egg-info/PKG-INFO
+atlas_ai_services.egg-info/SOURCES.txt
+atlas_ai_services.egg-info/dependency_links.txt
+atlas_ai_services.egg-info/requires.txt
+atlas_ai_services.egg-info/top_level.txt
+tests/test_orchestrator.py

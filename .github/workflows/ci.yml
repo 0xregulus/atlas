@@ -1,0 +1,68 @@
+name: Atlas CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ./core/api[dev] -e ./ai[dev] ruff
+      - name: Alembic upgrade (core/api)
+        env:
+          ATLAS_DATABASE_URL: sqlite://
+        run: |
+          cd core/api
+          alembic upgrade head
+      - name: Ruff (core/api)
+        run: |
+          cd core/api
+          ruff check app
+      - name: Core API tests
+        env:
+          ATLAS_DATABASE_URL: sqlite://
+        run: |
+          cd core/api
+          PYTEST_ADDOPTS=--capture=no pytest
+      - name: AI tests
+        run: |
+          cd ai
+          PYTHONPATH=.. PYTEST_ADDOPTS=--capture=no pytest
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install and build
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+      - name: Terraform fmt
+        run: terraform fmt -check -recursive
+      - name: Terraform validate (no backend)
+        run: |
+          cd infra/terraform
+          terraform init -backend=false
+          terraform validate

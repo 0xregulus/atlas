@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "Atlas Core API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{authUsername}}\",\n  \"password\": \"{{authPassword}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/token",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "token"]
+        }
+      }
+    },
+    {
+      "name": "Health - Live",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health/live",
+          "host": ["{{baseUrl}}"],
+          "path": ["health", "live"]
+        }
+      }
+    },
+    {
+      "name": "Tenant Usage",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "X-Atlas-Tenant", "value": "{{tenant}}"}
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/tenants/current",
+          "host": ["{{baseUrl}}"],
+          "path": ["tenants", "current"]
+        }
+      }
+    },
+    {
+      "name": "Upsert Tenant (auth)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{authToken}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant\": \"acme\",\n  \"plan\": \"growth\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/tenants",
+          "host": ["{{baseUrl}}"],
+          "path": ["tenants"]
+        }
+      }
+    },
+    {
+      "name": "Update Usage (auth)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{authToken}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tokens_delta\": 5000,\n  \"requests_delta\": 50\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/tenants/{{tenant}}/usage",
+          "host": ["{{baseUrl}}"],
+          "path": ["tenants", "{{tenant}}", "usage"]
+        }
+      }
+    },
+    {
+      "name": "Record Usage Event (auth)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{authToken}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant\": \"demo\",\n  \"source\": \"postman\",\n  \"tokens\": 123,\n  \"latency_ms\": 95.5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/metrics/usage",
+          "host": ["{{baseUrl}}"],
+          "path": ["metrics", "usage"]
+        }
+      }
+    },
+    {
+      "name": "Usage Summary (auth)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{authToken}}"}
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/metrics/usage/daily",
+          "host": ["{{baseUrl}}"],
+          "path": ["metrics", "usage", "daily"]
+        }
+      }
+    },
+    {
+      "name": "Billing Preview",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/billing/{{tenant}}/preview",
+          "host": ["{{baseUrl}}"],
+          "path": ["billing", "{{tenant}}", "preview"]
+        }
+      }
+    },
+    {
+      "name": "Stripe Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Stripe-Signature", "value": "{{stripeSignature}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"invoice.paid\",\n  \"data\": {\n    \"object\": {\"id\": \"evt_demo\"}\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/webhooks/stripe",
+          "host": ["{{baseUrl}}"],
+          "path": ["webhooks", "stripe"]
+        }
+      }
+    }
+  ]
+}

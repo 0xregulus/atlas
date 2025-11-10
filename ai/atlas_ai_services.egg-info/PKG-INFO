@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: atlas-ai-services
+Version: 0.1.0
+Summary: LangGraph/Qdrant orchestration layer for Atlas
+Requires-Python: >=3.11
+Requires-Dist: langchain-core>=0.2.0
+Requires-Dist: langgraph>=0.0.55
+Requires-Dist: qdrant-client>=1.8.2
+Requires-Dist: pydantic>=2.6.4
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: pydantic-settings>=2.2.1
+Requires-Dist: typer>=0.12.0
+Requires-Dist: rich>=13.7.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.1.0; extra == "dev"

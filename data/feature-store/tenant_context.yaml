@@ -1,0 +1,16 @@
+features:
+  - name: tenant_ai_context
+    description: "Aggregated AI usage + dataset freshness per tenant"
+    entities: [tenant]
+    ttl: 1h
+    online_store: redis
+    offline_store: s3://atlas-data/feature-store/tenant_ai_context
+    inputs:
+      - ref: transformations.models.marts.fct_ai_context
+    schema:
+      tenant: string
+      dataset_name: string
+      plan: string
+      tokens: int
+      requests: int
+      last_refresh: timestamp

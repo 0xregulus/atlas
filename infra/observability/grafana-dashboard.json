@@ -1,0 +1,25 @@
+{
+  "title": "Atlas AI Overview",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "AI Tokens by Tenant",
+      "targets": [
+        {
+          "expr": "sum by (tenant) (ai_usage_tokens_total)",
+          "datasource": "prometheus"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "LangGraph Latency",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(langgraph_latency_bucket[5m])) by (le))",
+          "datasource": "prometheus"
+        }
+      ]
+    }
+  ]
+}

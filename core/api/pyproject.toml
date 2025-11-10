@@ -1,0 +1,29 @@
+[project]
+name = "atlas-core-api"
+version = "0.1.0"
+description = "FastAPI reference service for the Atlas platform"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.111.0",
+  "uvicorn[standard]>=0.30.0",
+  "pydantic-settings>=2.2.1",
+  "sqlmodel>=0.0.22",
+  "psycopg[binary]>=3.1.18",
+  "alembic>=1.13.1",
+  "pyjwt>=2.9.0",
+  "opentelemetry-sdk>=1.38.0",
+  "opentelemetry-exporter-otlp>=1.38.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.1.0",
+  "httpx>=0.27.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["app", "app.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

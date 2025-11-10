@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_knowledge_base
+    description: "Cleaned knowledge articles ingested via Airbyte"
+    columns:
+      - name: article_id
+        tests: [not_null, unique]
+      - name: tenant
+        tests: [not_null]
+  - name: fct_ai_context
+    description: "Datasets exposed to LangGraph (joined with freshness + usage)"
+    columns:
+      - name: tenant
+        tests: [not_null]
+      - name: dataset_name
+        tests: [not_null]

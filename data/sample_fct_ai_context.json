@@ -1,0 +1,10 @@
+[
+  {
+    "tenant": "demo",
+    "dataset_name": "knowledge_base",
+    "plan": "scale",
+    "tokens": 120000,
+    "requests": 540,
+    "last_refresh": "2024-05-01T00:00:00Z"
+  }
+]

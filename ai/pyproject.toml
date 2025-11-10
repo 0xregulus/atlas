@@ -1,0 +1,23 @@
+[project]
+name = "atlas-ai-services"
+version = "0.1.0"
+description = "LangGraph/Qdrant orchestration layer for Atlas"
+requires-python = ">=3.11"
+dependencies = [
+  "langchain-core>=0.2.0",
+  "langgraph>=0.0.55",
+  "qdrant-client>=1.8.2",
+  "pydantic>=2.6.4",
+  "python-dotenv>=1.0.1",
+  "pydantic-settings>=2.2.1",
+  "typer>=0.12.0",
+  "rich>=13.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.1.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["ai", "ai.*"]
