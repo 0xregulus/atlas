@@ -15,7 +15,11 @@ resource "aws_ecs_task_definition" "ai" {
       essential = true
       environment = [
         { name = "ATLAS_AI_CORE_API_URL", value = var.core_api_url },
-        { name = "OTLP_ENDPOINT", value = var.otlp_endpoint }
+        { name = "OTLP_ENDPOINT", value = var.otlp_endpoint },
+        {
+          name  = "SEMANTIC_CACHE_CAPACITY"
+          value = tostring(var.semantic_cache_capacity)
+        }
       ]
     }
   ])
