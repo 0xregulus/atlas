@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import hashlib
 
 import jwt
 from fastapi import Depends, HTTPException, status
@@ -10,9 +11,6 @@ from .config import get_settings
 
 settings = get_settings()
 auth_scheme = HTTPBearer(auto_error=False)
-
-
-import hashlib
 
 
 def create_access_token(subject: str) -> str:
