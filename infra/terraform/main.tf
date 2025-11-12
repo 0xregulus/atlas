@@ -17,13 +17,13 @@ module "network" {
 }
 
 module "observability" {
-  source = "./modules/observability"
+  source            = "./modules/observability"
   grafana_workspace = var.grafana_workspace
 }
 
 module "ai_services" {
-  source                   = "./modules/ai-services"
-  core_api_url             = var.core_api_url
-  otlp_endpoint            = var.otlp_endpoint
-  semantic_cache_capacity  = 10000
+  source                  = "./modules/ai-services"
+  core_api_url            = var.core_api_url
+  otlp_endpoint           = var.otlp_endpoint
+  semantic_cache_capacity = 10000
 }

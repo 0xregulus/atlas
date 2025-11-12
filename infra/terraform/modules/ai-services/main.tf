@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "ai" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"
   memory                   = "1024"
-  container_definitions    = jsonencode([
+  container_definitions = jsonencode([
     {
       name      = "ai-service"
       image     = "public.ecr.aws/atlas/ai-service:latest"

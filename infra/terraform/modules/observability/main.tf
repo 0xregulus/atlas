@@ -1,9 +1,9 @@
 locals {
   prometheus_endpoint = var.enable_prometheus ? try(aws_prometheus_workspace.this[0].prometheus_endpoint, "") : var.prometheus_remote_write_endpoint
-  otel_config        = templatefile("${path.module}/templates/otel-config.tpl", {
+  otel_config = templatefile("${path.module}/templates/otel-config.tpl", {
     prometheus_remote_write = local.prometheus_endpoint
   })
-  collector_command = "echo $OTEL_CONFIG | base64 -d > /etc/otelcol/config.yaml && /otelcol --config=/etc/otelcol/config.yaml"
+  collector_command    = "echo $OTEL_CONFIG | base64 -d > /etc/otelcol/config.yaml && /otelcol --config=/etc/otelcol/config.yaml"
   grafana_workspace_id = var.grafana_workspace != "" ? var.grafana_workspace : try(aws_grafana_workspace.this[0].id, "")
 }
 
@@ -13,11 +13,11 @@ resource "aws_prometheus_workspace" "this" {
 }
 
 resource "aws_grafana_workspace" "this" {
-  count = var.grafana_workspace == "" ? 1 : 0
-  name                 = "atlas-grafana"
-  account_access_type  = "CURRENT_ACCOUNT"
+  count                    = var.grafana_workspace == "" ? 1 : 0
+  name                     = "atlas-grafana"
+  account_access_type      = "CURRENT_ACCOUNT"
   authentication_providers = ["AWS_SSO"]
-  permission_type = "SERVICE_MANAGED"
+  permission_type          = "SERVICE_MANAGED"
 }
 
 resource "aws_ecs_cluster" "collector" {
@@ -109,8 +109,8 @@ resource "aws_ecs_service" "collector" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets         = var.subnet_ids
-    security_groups = var.security_group_ids
+    subnets          = var.subnet_ids
+    security_groups  = var.security_group_ids
     assign_public_ip = true
   }
 }
